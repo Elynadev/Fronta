@@ -1,0 +1,79 @@
+<p>create-user works!</p>
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+    <h2 class="text-2xl font-semibold text-center text-gray-700 mb-6">Créer un utilisateur</h2>
+
+    <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-600">Nom</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Nom"
+        />
+        <div *ngIf="createUserForm.controls.name.touched && createUserForm.controls.name.invalid" class="text-red-500 text-sm">
+          Le nom est requis.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Email"
+        />
+        <div *ngIf="createUserForm.controls.email.touched && createUserForm.controls.email.invalid" class="text-red-500 text-sm">
+          Un email valide est requis.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-600">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Mot de passe"
+        />
+        <div *ngIf="createUserForm.controls.password.touched && createUserForm.controls.password.invalid" class="text-red-500 text-sm">
+          Le mot de passe doit contenir au moins 6 caractères.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="role" class="block text-sm font-medium text-gray-600">Rôle</label>
+        <select
+          id="role"
+          formControlName="role"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="" disabled selected>Choisir un rôle</option>
+          <option value="admin">Admin</option>
+          <option value="user">Utilisateur</option>
+        </select>
+        <div *ngIf="createUserForm.controls.role.touched && createUserForm.controls.role.invalid" class="text-red-500 text-sm">
+          Le rôle est requis.
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button
+          type="submit"
+          [disabled]="createUserForm.invalid"
+          class="w-full py-3 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none"
+        >
+          Créer l'utilisateur
+        </button>
+      </div>
+
+      <div *ngIf="successMessage" class="mt-4 text-green-600 text-center">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="mt-4 text-red-600 text-center">{{ errorMessage }}</div>
+    </form>
+  </div>
+</div>

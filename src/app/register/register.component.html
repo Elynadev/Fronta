@@ -1,0 +1,79 @@
+<p>register works!</p>
+<!-- register.component.html -->
+
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+    <h2 class="text-2xl font-semibold text-center text-gray-700 mb-6">S'enregistrer</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-600">Nom</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Votre nom"
+        />
+        <div *ngIf="registerForm.controls.name.touched && registerForm.controls.name.invalid" class="text-red-500 text-sm">
+          Le nom est requis.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Votre email"
+        />
+        <div *ngIf="registerForm.controls.email.touched && registerForm.controls.email.invalid" class="text-red-500 text-sm">
+          L'email est requis et doit être valide.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-600">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Votre mot de passe"
+        />
+        <div *ngIf="registerForm.controls.password.touched && registerForm.controls.password.invalid" class="text-red-500 text-sm">
+          Le mot de passe doit contenir au moins 6 caractères.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-600">Confirmer le mot de passe</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Confirmer le mot de passe"
+        />
+        <div *ngIf="registerForm.errors?.passwordMismatch && registerForm.touched" class="text-red-500 text-sm">
+          Les mots de passe ne correspondent pas.
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button
+          type="submit"
+          [disabled]="registerForm.invalid"
+          class="w-full py-3 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none"
+        >
+          S'enregistrer
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="mt-4 text-red-600 text-center">{{ errorMessage }}</div>
+    </form>
+  </div>
+</div>
+
