@@ -1,53 +1,45 @@
-// register.component.ts
-
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  standalone: false
+  standalone:false
 })
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+    // Initialisation du formulaire réactif
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
-    }, { validators: this.passwordMatchValidator });
+      name: ['', [Validators.required]], // Définit le champ 'name' avec une validation requise
+      email: ['', [Validators.required, Validators.email]], // Définit le champ 'email' avec validation d'email
+      password: ['', [Validators.required, Validators.minLength(6)]] // Définit le champ 'password' avec une longueur minimale
+    });
   }
 
-  passwordMatchValidator(group: FormGroup) {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-
-    return password === confirmPassword ? null : { passwordMismatch: true };
-  }
-
+  /**
+   * Gère la soumission du formulaire
+   */
   onSubmit() {
-    if (this.registerForm.invalid) {
-      return;
+    if (this.registerForm.valid) {
+      this.authService.register(this.registerForm.value).subscribe(
+        () => {
+          alert('Enregistrement réussi !');
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          console.error(error);
+          this.errorMessage = 'Une erreur est survenue lors de l’enregistrement.';
+        }
+      );
+    } else {
+      this.errorMessage = 'Veuillez corriger les erreurs du formulaire.';
     }
-
-    const userData = this.registerForm.value;
-    this.authService.register(userData).subscribe(
-      (response) => {
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        this.errorMessage = 'Erreur lors de l\'enregistrement';
-      }
-    );
   }
 }

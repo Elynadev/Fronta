@@ -9,7 +9,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { JwtModule } from '@auth0/angular-jwt';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,9 @@ import { JwtModule } from '@auth0/angular-jwt';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [
     provideAnimationsAsync()
