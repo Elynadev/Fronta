@@ -26,9 +26,11 @@
           class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Votre email"
         />
-        <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-red-500 text-sm">
-          L'email est requis et doit être valide.
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          <small *ngIf="registerForm.get('email')?.errors?.['required']">L'email est requis.</small>
+          <small *ngIf="registerForm.get('email')?.errors?.['email']">L'email n'est pas valide.</small>
         </div>
+
       </div>
 
       <div class="mb-4">
@@ -44,6 +46,22 @@
           Le mot de passe doit contenir au moins 6 caractères.
         </div>
       </div>
+
+      <div class="mb-4">
+        <label for="role" class="block text-sm font-medium text-gray-600">Rôle</label>
+        <select
+          id="role"
+          formControlName="role"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="user">Utilisateur</option>
+          <option value="admin">Administrateur</option>
+        </select>
+        <div *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid" class="text-red-500 text-sm">
+          Le rôle est requis.
+        </div>
+      </div>
+
 
       <div class="text-center">
         <button

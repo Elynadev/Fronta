@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +19,15 @@ export class AuthService {
    * @param credentials - Objet contenant `email` et `password`.
    * @returns Observable avec la réponse du backend.
    */
-  login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
-  }
 
+login(credentials: { email: string; password: string }): Observable<any> {
+  return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+    catchError(error => {
+      // Handle specific error responses if needed
+      return throwError(error);
+    })
+  );
+}
   /**
    * Enregistre un nouvel utilisateur.
    * @param user - Objet contenant les informations de l'utilisateur.
@@ -60,7 +66,7 @@ export class AuthService {
   /**
    * Récupère le rôle de l'utilisateur à partir du token.
    * @returns Le rôle de l'utilisateur, ou `null` si non authentifié.
-   */
+  //  */
   getRole(): string | null {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -70,3 +76,4 @@ export class AuthService {
     return decodedToken ? decodedToken.role : null; // Retourner le rôle si présent dans le payload
   }
 }
+

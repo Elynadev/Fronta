@@ -34,12 +34,24 @@ export class LoginComponent {
     const credentials = this.loginForm.value;
     this.authService.login(credentials).subscribe(
       (response) => {
-        // Stockez le token JWT et redirigez
         localStorage.setItem('token', response.token);
-        this.router.navigate(['/dashboard']);
+        if (response.user.role==="user") {
+          console.log("je suis dans le user");
+
+          this.router.navigate(['/dashboard']);
+
+        }
+        console.log(response.user.role);
+
+
+
       },
       (error) => {
-        this.errorMessage = 'Identifiants incorrects';
+        if (error.status === 401) {
+          this.errorMessage = 'Identifiants incorrects'; // Invalid credentials
+        } else {
+          this.errorMessage = 'Erreur de connexion, veuillez réessayer.'; // General error
+        }
       }
     );
   }
